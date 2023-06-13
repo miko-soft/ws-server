@@ -1,0 +1,27 @@
+{
+  "name": "@mikosoft/ws-server",
+  "version": "1.0.0",
+  "title": "Websocket Server",
+  "description": "Websocket server library for NodeJS.",
+  "author": "Sasa Mikodanic <smikodanic@gmail.com>",
+  "homepage": "http://libs.mikosoft.info",
+  "license": "MIT",
+  "keywords": [
+    "websocket server",
+    "socket",
+    "ws",
+    "RFC 6455",
+    "realtime",
+    "mikosoft"
+  ],
+  "main": "index.js",
+  "scripts": {},
+  "dependencies": {
+    "@mikosoft/ws-lib": "../ws-lib"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/miko-soft/ws-server.git"
+  }
+}
