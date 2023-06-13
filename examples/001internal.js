@@ -1,9 +1,9 @@
 /**
  * An example with the built-in HTTP server.
  */
-const { RWServer, RWHttpServer } = require('../../index.js');
+const { RWServer, RWHttpServer } = require('../index.js');
 
-const Router = require('regoch-router');
+const Router = require('@mikosoft/router');
 const router = new Router({ debug: false });
 
 

@@ -2,7 +2,7 @@
  * An example with the external HTTP server injected into the .
  */
 const http = require('http');
-const { RWServer } = require('../../index.js');
+const { RWServer } = require('../index.js');
 
 
 // create external HTTP server instance

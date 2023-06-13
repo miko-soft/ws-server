@@ -1,7 +1,7 @@
 /**
  * An example with the built-in HTTP server.
  */
-const { RWServer, RWHttpServer } = require('../../index.js');
+const { RWServer, RWHttpServer } = require('../index.js');
 
 // start internal HTTP server
 const httpOpts = {

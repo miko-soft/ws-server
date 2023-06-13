@@ -46,5 +46,5 @@ For example ```sudo tcpdump -i any port 8000 -X -s0``` where 8000 is the server 
 
 
 ### Licence
-Copyright (c) 2020 Saša Mikodanić licensed under [MIT](../LICENSE) .
+Copyright (c) 2021- Mikosoft licensed under [MIT](../LICENSE) .
 
