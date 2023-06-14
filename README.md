@@ -28,7 +28,7 @@ npm install --save @mikosoft/ws-server
 
 
 ## Website
-[http://libs.mikosoft.info/ws/server](http://libs.mikosoft.info/ws/server)
+[http://libs.mikosoft.info/ws-server](http://libs.mikosoft.info/ws-server)
 
 
 
