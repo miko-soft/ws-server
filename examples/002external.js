@@ -2,7 +2,7 @@
  * An example with the external HTTP server injected into the .
  */
 const http = require('http');
-const { RWServer } = require('../index.js');
+const { WsServer } = require('../index.js');
 
 
 // create external HTTP server instance
@@ -17,28 +17,14 @@ httpServer.on('listening', () => {
   console.log(`HTTP Server is listening on ${ip}:${port}`);
 });
 httpServer.on('error', (error) => {
-  if (error.syscall !== 'listen') {
-    throw error;
-  }
-
-  const bind = (typeof this.port === 'string')
-    ? 'Pipe ' + this.port
-    : 'Port ' + this.port;
-
   // handle specific listen errors with friendly messages
-  switch (error.code) {
-    case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
-      console.error(error);
-      process.exit(1);
-      break;
-    case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
-      process.exit(1);
-      break;
-    default:
-      throw error;
+  if (error.code = 'EACCES') {
+    console.log(this.httpOpts.port + ' permission denied');
+  } else if (error.code = 'EADDRINUSE') {
+    console.log(this.httpOpts.port + ' already used');
   }
+  console.log(error);
+  process.exit(1);
 });
 
 
@@ -54,13 +40,13 @@ const wsOpts = {
   version: 13,
   debug: false
 };
-const rws = new RWServer(wsOpts);
-rws.socketStorage.init(null);
-rws.bootup(httpServer);
+const wsServer = new WsServer(wsOpts);
+wsServer.socketStorage.init(null);
+wsServer.bootup(httpServer);
 
 
 /*** socket stream ***/
-rws.on('connection', async socket => {
+wsServer.on('connection', async socket => {
   /* authenticate the socket */
   const authkey = 'TRTmrt'; // can be fetched from the database, usually 'users' table
   socket.extension.authenticate(authkey); // authenticate the socket: compare authkey with the sent authkey in the client request URL ws://localhost:3211/something?authkey=TRTmrt

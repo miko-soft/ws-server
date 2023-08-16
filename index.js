@@ -1,8 +1,8 @@
-const RWServer = require('./server/RWServer');
-const RWHttpServer = require('./server/RWHttpServer');
+const WsServer = require('./server/WsServer.js');
+const WsHttpServer = require('./server/WsHttpServer.js');
 
 
 module.exports = {
-  RWServer,
-  RWHttpServer
+  WsServer,
+  WsHttpServer
 };

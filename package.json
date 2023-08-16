@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "title": "Websocket Server",
   "description": "Websocket server library for NodeJS.",
-  "author": "Sasa Mikodanic <smikodanic@gmail.com>",
+  "author": "Mikosoft",
   "homepage": "http://libs.mikosoft.info",
   "license": "MIT",
   "keywords": [

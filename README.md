@@ -26,9 +26,41 @@ Very clean code with straightforward logic and no dependencies.
 npm install --save @mikosoft/ws-server
 ```
 
+## Example
+```js
+const { WsServer, WsHttpServer } = require('@mikosoft/ws-server);
+
+// start internal HTTP server
+const httpOpts = {
+  port: 3211,
+  timeout: 0 // if 0 the socket connection will never timeout
+};
+const wsHttpServer = new WsHttpServer(httpOpts);
+const httpServer = wsHttpServer.start(); // nodeJS HTTP server instance
+setTimeout(() => {
+  // wsHttpServer.restart();
+  // wsHttpServer.stop();
+}, 3400);
+
+// websocket server
+const wsOpts = {
+  timeout: 5 * 60 * 1000,
+  maxConns: 5,
+  maxIPConns: 2,
+  storage: 'memory',
+  subprotocol: 'jsonRWS',
+  tightening: 100,
+  version: 13,
+  debug: false
+};
+const wsServer = new WsServer(wsOpts);
+wsServer.socketStorage.init(null);
+wsServer.bootup(httpServer);
+```
+
 
 ## Website
-[http://libs.mikosoft.info/ws-server](http://libs.mikosoft.info/ws-server)
+[http://libs.mikosoft.info/websocket/ws-server](http://libs.mikosoft.info/websocket/ws-server)
 
 
 
@@ -36,7 +68,7 @@ npm install --save @mikosoft/ws-server
 **Server Development**
 ```bash
 ## start the test server
-$ nodemon examples/001internal.js
+$ node examples/001internal.js
 ```
 
 

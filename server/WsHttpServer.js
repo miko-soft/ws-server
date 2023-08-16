@@ -6,7 +6,7 @@ const http = require('http');
  * - port:number - HTTP Server port number
  * - timeout:number - ms of inactivity after ws will be closed. If 0 then the ws will never close. Default is 5 minutes.
  */
-class RWHttpServer {
+class WsHttpServer {
 
   constructor(httpOpts) {
 
@@ -14,11 +14,11 @@ class RWHttpServer {
     if (!!httpOpts) {
       this.httpOpts = httpOpts;
       if (!this.httpOpts.port) { throw new Error('The server port is not defined'); }
-      else if (!this.httpOpts.timeout) { this.httpOpts.timeout = 5*60*1000; }
+      else if (!this.httpOpts.timeout) { this.httpOpts.timeout = 5 * 60 * 1000; }
     } else {
       this.httpOpts = {
         port: 3000,
-        timeout: 5*60*1000 // 5 minutes is the default
+        timeout: 5 * 60 * 1000 // 5 minutes is the default
       };
     }
 
@@ -115,17 +115,17 @@ class RWHttpServer {
 
       // handle specific listen errors with friendly messages
       switch (error.code) {
-      case 'EACCES':
-        console.error(bind + ' requires elevated privileges');
-        console.error(error);
-        process.exit(1);
-        break;
-      case 'EADDRINUSE':
-        console.error((bind + ' is already in use').cliBoja('red', 'bright'));
-        process.exit(1);
-        break;
-      default:
-        throw error;
+        case 'EACCES':
+          console.error(bind + ' requires elevated privileges');
+          console.error(error);
+          process.exit(1);
+          break;
+        case 'EADDRINUSE':
+          console.error((bind + ' is already in use').cliBoja('red', 'bright'));
+          process.exit(1);
+          break;
+        default:
+          throw error;
       }
     });
 
@@ -135,4 +135,4 @@ class RWHttpServer {
 
 
 
-module.exports = RWHttpServer;
+module.exports = WsHttpServer;

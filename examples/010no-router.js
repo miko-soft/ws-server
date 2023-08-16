@@ -1,18 +1,18 @@
 /**
  * An example with the built-in HTTP server.
  */
-const { RWServer, RWHttpServer } = require('../index.js');
+const { WsServer, WsHttpServer } = require('../index.js');
 
 // start internal HTTP server
 const httpOpts = {
   port: 3211,
   timeout: 0 // if 0 the socket connection will never timeout
 };
-const rwsHttpServer = new RWHttpServer(httpOpts);
-const httpServer = rwsHttpServer.start(); // nodeJS HTTP server instance
+const wsHttpServer = new WsHttpServer(httpOpts);
+const httpServer = wsHttpServer.start(); // nodeJS HTTP server instance
 setTimeout(() => {
-  // rwsHttpServer.restart();
-  // rwsHttpServer.stop();
+  // wsHttpServer.restart();
+  // wsHttpServer.stop();
 }, 3400);
 
 
@@ -28,9 +28,9 @@ const wsOpts = {
   version: 13,
   debug: true
 };
-const rws = new RWServer(wsOpts);
-rws.socketStorage.init(null);
-rws.bootup(httpServer);
+const wsServer = new WsServer(wsOpts);
+wsServer.socketStorage.init(null);
+wsServer.bootup(httpServer);
 
 
 // test small mesage (msglen < 126)
@@ -45,15 +45,15 @@ const msg_65536 = 'AlkMHIwNqvtEdbDhSCXTllwSEpZbVYPHCrPSAAt1uYRBDHz02VtQBkwzxDpbk
 
 
 /*** socket stream ***/
-rws.on('connection', async socket => {
+wsServer.on('connection', async socket => {
   /* send message back to the connected client */
   // await socket.extension.sendSelf(msg_1); // test short message
   // await socket.extension.sendSelf(msg_126); // test medium message
   // await socket.extension.sendSelf(msg_65536); // test large message
 
   /* other ways to send message back to the connected client */
-  // await rws.dataTransfer.sendOne(msg_1, socket);
-  // await rws.dataTransfer.carryOut(msg_1, socket);
+  // await wsServer.dataTransfer.sendOne(msg_1, socket);
+  // await wsServer.dataTransfer.carryOut(msg_1, socket);
 
 
   /* authenticate the socket */
@@ -66,6 +66,6 @@ rws.on('connection', async socket => {
 
 
 /*** all messages stream ***/
-rws.on('message', msg => {
+wsServer.on('message', msg => {
   // console.log('\nmessageStream::', msg);
 });
