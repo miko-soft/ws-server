@@ -17,7 +17,7 @@
   "main": "index.js",
   "scripts": {},
   "dependencies": {
-    "@mikosoft/ws-lib": "^1.0.0"
+    "@mikosoft/ws-lib": "^1.0.2"
   },
   "devDependencies": {},
   "repository": {

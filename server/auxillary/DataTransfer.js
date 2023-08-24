@@ -198,6 +198,16 @@ class DataTransfer {
 
 
   /**
+   * Server is catching the message and not re-sending it to any of the clients.
+   * @param {any} msg - message which will be sent to the client
+   * @returns {any}
+   */
+  async catchMessage(msg) {
+    return msg;
+  }
+
+
+  /**
    * Send message to all clients in the specific room excluding the client who sent the message.
    * @param {any} msg - message which will be sent to the room clients
    * @param {Socket} socketSender - client which is sending message (net socket https://nodejs.org/api/net.html#net_class_net_socket)
