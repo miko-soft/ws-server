@@ -12,7 +12,6 @@ class DataTransfer {
 
   /**
    * @param {object} wsOpts - RWS options
-   * @param {EventEmitter} eventEmitter - NodeJS EventEmitter instance ( https://nodejs.org/api/events.html#events_class_event )
    */
   constructor(wsOpts) {
     this.wsOpts = wsOpts;

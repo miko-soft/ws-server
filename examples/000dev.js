@@ -2,8 +2,8 @@
  * An example with the built-in HTTP server.
  * Use it for the library developemnt.
  */
-const { helper } = require('@mikosoft/ws-lib');
-const { WsServer, WsHttpServer } = require('../index.js');
+const { WsServer, WsHttpServer, lib } = require('../index.js');
+const helper = lib.helper;
 
 const Router = require('@mikosoft/router');
 const router = new Router({ debug: false });
