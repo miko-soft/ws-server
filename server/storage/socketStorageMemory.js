@@ -301,11 +301,13 @@ class SocketStorageMemory {
    * @param {object} query - query for the socket.extension object, for example: {userAgent: {$regex: /moz/i}}
    * @returns {boolean}
    */
-  _searchLogic(socket, query) {
+  _searchLogic(socket, query = {}) {
     const props = Object.keys(query);
     let tf = true;
 
     for (const prop of props) {
+      if (!query[prop]) { continue; }
+
       const $eq = query[prop].$eq; // {name: {$eq: 'Johnny'}}
       const $ne = query[prop].$ne; // {name: {$ne: 'Johnny'}}
       const $gt = query[prop].$gt; // {age: {$gt: 22}}
