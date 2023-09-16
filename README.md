@@ -28,7 +28,7 @@ npm install --save @mikosoft/ws-server
 
 ## Example
 ```js
-const { WsServer, WsHttpServer } = require('@mikosoft/ws-server);
+const { WsServer, WsHttpServer, lib } = require('@mikosoft/ws-server);
 
 // start internal HTTP server
 const httpOpts = {
