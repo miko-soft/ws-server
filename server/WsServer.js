@@ -25,7 +25,7 @@ class WsServer {
         storage: 'memory', // socket storage type
         subprotocol: 'jsonRWS', // protocol used in the server
         tightening: 400, // delays in the code execution
-        autodelayFactor: 500, // factor for preventing DDoS, bigger then sending messages works slower
+        autodelayFactor: 500, // factor for preventing DDoS, it can lead to slower message sending when set to higher values
         version: 13, // websocket version
         debug: false // debug incoming and outgoing messages
       };

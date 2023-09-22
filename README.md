@@ -44,14 +44,16 @@ setTimeout(() => {
 
 // websocket server
 const wsOpts = {
-  timeout: 5 * 60 * 1000,
-  maxConns: 5,
-  maxIPConns: 2,
-  storage: 'memory',
-  subprotocol: 'jsonRWS',
-  tightening: 100,
-  version: 13,
-  debug: false
+  timeout: 5 * 60 * 1000, // close socket after ms inactivity. If 0 never close. Default: 5min.
+  allowHalfOpen: false, // if false close socket if it's readyState is writeOnly or readOnly. When NginX timeout socket on the client side [Client -X- NginX --- WSServer(NodeJS)]
+  maxConns: 10000, // limit connections to the server
+  maxIPConns: 3, // limit connections from the same IP address. If 0 infinite
+  storage: 'memory', // socket storage type
+  subprotocol: 'jsonRWS', // protocol used in the server
+  tightening: 400, // delays in the code execution
+  autodelayFactor: 500, // factor for preventing DDoS, it can lead to slower message sending when set to higher values
+  version: 13, // websocket version
+  debug: false // debug incoming and outgoing messages
 };
 const wsServer = new WsServer(wsOpts);
 wsServer.socketStorage.init(null);
