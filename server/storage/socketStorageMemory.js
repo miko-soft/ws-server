@@ -171,8 +171,8 @@ class SocketStorageMemory {
 
     for (const socket of sockets) {
       if (socket.readyState === 'readOnly' || socket.readyState === 'writeOnly') {
-        console.log(`Socket "${socket.extension.id}" removed, readyState: "${socket.readyState}"`);
         socket.extension.removeSocket();
+        console.log(`Socket "${socket.extension.id}" removed, readyState: "${socket.readyState}"`);
       }
     }
 

@@ -5,6 +5,7 @@ const http = require('http');
  * Internal HTTP Server which will run in case that external is not injected.
  * - port:number - HTTP Server port number
  * - timeout:number - ms of inactivity after ws will be closed. If 0 then the ws will never close. Default is 5 minutes.
+ * - showInfo:boolean
  */
 class WsHttpServer {
 
@@ -18,7 +19,8 @@ class WsHttpServer {
     } else {
       this.httpOpts = {
         port: 3000,
-        timeout: 5 * 60 * 1000 // 5 minutes is the default
+        timeout: 5 * 60 * 1000, // 5 minutes is the default
+        showInfo: false
       };
     }
 
@@ -42,7 +44,7 @@ class WsHttpServer {
       res.setHeader('Access-Control-Max-Age', 3600);
 
       // send response
-      res.end('Welcome to @regoch WebSocket HTTP Server !\n');
+      res.end('Welcome to websocket\'s HTTP Server  !\n');
     });
 
     // configure HTTP Server
@@ -90,46 +92,34 @@ class WsHttpServer {
       const addr = this.httpServer.address();
       const ip = addr.address === '::' ? '127.0.0.1' : addr.address;
       const port = addr.port;
-      console.log(`HTTP Server is started on ${ip}:${port}`.cliBoja('blue', 'bright'));
+      this.httpOpts.showInfo && console.log(`HTTP Server is started on ${ip}:${port}`.cliBoja('blue', 'bright'));
     });
   }
 
 
   _onClose() {
     this.httpServer.on('close', () => {
-      console.log(`HTTP Server is stopped.`.cliBoja('blue', 'bright'));
+      this.httpOpts.showInfo && console.log(`HTTP Server is stopped.`.cliBoja('blue', 'bright'));
     });
   }
 
 
   _onError() {
+    this.httpServer.on('error', error => {
+      if (error.syscall !== 'listen') { throw error; }
 
-    this.httpServer.on('error', (error) => {
-      if (error.syscall !== 'listen') {
-        throw error;
+      if (error.code === 'EACCES') {
+        console.log('EACCES: Port requires elevated privileges'.cliBoja('red', 'italic'));
+        process.exit(1);
+      } else if (error.code === 'EADDRINUSE') {
+        console.log('EADDRINUSE: Port is already in use'.cliBoja('red', 'italic'));
+        process.exit(1);
       }
 
-      const bind = (typeof this.httpOpts.port === 'string')
-        ? 'Pipe ' + this.httpOpts.port
-        : 'Port ' + this.httpOpts.port;
-
-      // handle specific listen errors with friendly messages
-      switch (error.code) {
-        case 'EACCES':
-          console.error(bind + ' requires elevated privileges');
-          console.error(error);
-          process.exit(1);
-          break;
-        case 'EADDRINUSE':
-          console.error((bind + ' is already in use').cliBoja('red', 'bright'));
-          process.exit(1);
-          break;
-        default:
-          throw error;
-      }
     });
-
   }
+
+
 
 }
 

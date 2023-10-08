@@ -27,7 +27,8 @@ class WsServer {
         tightening: 400, // delays in the code execution
         autodelayFactor: 500, // factor for preventing DDoS, it can lead to slower message sending when set to higher values
         version: 13, // websocket version
-        debug: false // debug incoming and outgoing messages
+        debug: false, // debug incoming and outgoing messages
+        showInfo: true // show info messages
       };
     } else {
       if (!wsOpts.timeout) { wsOpts.timeout = 5 * 60 * 1000; }
@@ -62,10 +63,10 @@ class WsServer {
     this.server = httpServer;
     this.onUpgrade();
     this.onRequest();
-    console.log('Regoch Websocket Server booted up'.cliBoja('blue', 'bright'));
-    console.log(`- storage: ${this.wsOpts.storage}`.cliBoja('blue'));
-    console.log(`- subprotocol: ${this.wsOpts.subprotocol}`.cliBoja('blue'));
-    console.log(`- timeout (inactivity): ${this.wsOpts.timeout} ms`.cliBoja('blue'));
+    this.wsOpts.showInfo && console.log('Websocket Server booted up'.cliBoja('blue', 'bright'));
+    this.wsOpts.showInfo && console.log(`- storage: ${this.wsOpts.storage}`.cliBoja('blue'));
+    this.wsOpts.showInfo && console.log(`- subprotocol: ${this.wsOpts.subprotocol}`.cliBoja('blue'));
+    this.wsOpts.showInfo && console.log(`- timeout (inactivity): ${this.wsOpts.timeout} ms`.cliBoja('blue'));
   }
 
 

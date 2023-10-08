@@ -67,7 +67,7 @@ class DataTransfer {
       } catch (err) {
         const socketID = !!socket && !!socket.extension ? socket.extension.id : '';
         console.log(`DataTransfer.carryIn:: socketID: ${socketID}, WARNING: ${err.message}`.cliBoja('yellow'));
-        console.log(err.stack);
+        console.log(err.stack.cliBoja('red'));
         this.eventEmitter.emit('message-error', err);
         // this.sendError(err, socket); // return error message back to the client
         // await new Promise(resolve => setTimeout(resolve, 800));
@@ -85,14 +85,14 @@ class DataTransfer {
    */
   opcodes(msgSTR, socket) {
     if (msgSTR === 'OPCODE 0x8 CLOSE') {
-      console.log('Opcode 0x8: Client closed the websocket connection'.cliBoja('yellow'));
+      this.wsOpts.showInfo && console.log('Opcode 0x8: Client closed the websocket connection'.cliBoja('yellow'));
       socket.extension.removeSocket();
     } else if (msgSTR === 'OPCODE 0x9 PING') {
-      if (this.wsOpts.debug) { console.log('Opcode 0x9: PING received'.cliBoja('yellow')); }
+      this.wsOpts.debug && console.log('Opcode 0x9: PING received'.cliBoja('yellow'));
       const pongBUF = this.dataParser.ctrlPong();
       socket.write(pongBUF);
     } else if (msgSTR === 'OPCODE 0xA PONG') {
-      if (this.wsOpts.debug) { console.log('Opcode 0xA: PONG received'.cliBoja('yellow')); }
+      this.wsOpts.debug && console.log('Opcode 0xA: PONG received'.cliBoja('yellow'));
     }
   }
 

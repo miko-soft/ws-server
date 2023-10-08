@@ -85,24 +85,7 @@ class SocketExtension {
       const now = helper.nowTime();
       const count = await this.socketStorage.count();
       const txt = `${now} (${count}) Websocket connected ID: ${this.socket.extension.id} ip:port: ${this.socket.extension.ip}:${this.socket.extension.port} timeout: ${this.socket.timeout / 1000}s`.cliBoja('magenta');
-      console.log(txt);
-    });
-
-    this.socket.on('timeout', async () => {
-      this.socket.extension.removeSocket();
-      const now = helper.nowTime();
-      const count = await this.socketStorage.count();
-      const txt = `${now} (${count}) Websocket timeout after ${this.socket.timeout / 1000}s of inactivity! ID: ${this.socket.extension.id}.`.cliBoja('magenta');
-      console.log(txt);
-    });
-
-    this.socket.on('error', async (err) => {
-      this.socket.extension.removeSocket();
-      const now = helper.nowTime();
-      const count = await this.socketStorage.count();
-      const txt = `${now} (${count}) Websocket error! ID: ${this.socket.extension.id}.`.cliBoja('red');
-      console.log(txt);
-      console.log(err.stack);
+      this.wsOpts.showInfo && console.log(txt);
     });
 
     this.socket.on('close', async () => {
@@ -110,7 +93,24 @@ class SocketExtension {
       const now = helper.nowTime();
       const count = await this.socketStorage.count();
       const txt = `${now} (${count}) Websocket closed! ID: ${this.socket.extension.id}.`.cliBoja('magenta');
-      console.log(txt);
+      this.wsOpts.showInfo && console.log(txt);
+    });
+
+    this.socket.on('timeout', async () => {
+      this.socket.extension.removeSocket();
+      const now = helper.nowTime();
+      const count = await this.socketStorage.count();
+      const txt = `${now} (${count}) Websocket timeout after ${this.socket.timeout / 1000}s of inactivity! ID: ${this.socket.extension.id}.`.cliBoja('magenta');
+      this.wsOpts.showInfo && console.log(txt);
+    });
+
+    this.socket.on('error', async (err) => {
+      this.socket.extension.removeSocket();
+      const now = helper.nowTime();
+      const count = await this.socketStorage.count();
+      const txt = `${now} (${count}) Websocket error! ID: ${this.socket.extension.id}.`.cliBoja('red');
+      this.wsOpts.showInfo && console.log(txt);
+      console.log(err.stack.cliBoja('red'));
     });
 
   }
@@ -138,13 +138,13 @@ class SocketExtension {
     if (!!authkey && authkey !== authkey_url) {
       this.socket.extension.authenticated = false;
       // this.socket.emit('close'); // close the socket
-      console.log(`Bad WS Authentication with authkey: ${authkey_url}`.cliBoja('magenta', 'bright'));
+      this.wsOpts.showInfo && console.log(`Bad WS Authentication with authkey: ${authkey_url}`.cliBoja('magenta', 'bright'));
     } else if (!!authkey && authkey === authkey_url) {
       this.socket.extension.authenticated = true;
-      console.log(`Good WS Authentication with authkey: ${authkey_url}`.cliBoja('magenta', 'bright'));
+      this.wsOpts.showInfo && console.log(`Good WS Authentication with authkey: ${authkey_url}`.cliBoja('magenta', 'bright'));
     } else {
       this.socket.extension.authenticated = 'anonymous';
-      console.log(`Anonymous WS Authentication`.cliBoja('magenta', 'bright'));
+      this.wsOpts.showInfo && console.log(`Anonymous WS Authentication`.cliBoja('magenta', 'bright'));
     }
 
     if (!this.socket.extension.authenticated) {
