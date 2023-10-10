@@ -302,12 +302,19 @@ class SocketStorageMemory {
    * @returns {boolean}
    */
   _searchLogic(socket, query = {}) {
-    const props = Object.keys(query);
     let tf = true;
 
-    for (const prop of props) {
-      if (!query[prop]) { continue; }
+    const props = Object.keys(query);
 
+    for (const prop of props) {
+
+      // query property is not object, for example {first_name: 'John'}
+      if (typeof query[prop] !== 'object') {
+        tf = tf && socket.extension[prop] === query[prop];
+        continue;
+      }
+
+      // query property is object, for example {first_name: {$eq: 'John'}}
       const $eq = query[prop].$eq; // {name: {$eq: 'Johnny'}}
       const $ne = query[prop].$ne; // {name: {$ne: 'Johnny'}}
       const $gt = query[prop].$gt; // {age: {$gt: 22}}
@@ -339,10 +346,11 @@ class SocketStorageMemory {
         if ($exists === true) { tf = tf && extProps.indexOf(prop) !== -1; }
         else if ($exists === false) { tf = tf && extProps.indexOf(prop) === -1; }
       } else {
-        tf = tf && socket.extension[prop] === query[prop];
+        tf = false;
       }
 
     }
+
     return tf;
   }
 
