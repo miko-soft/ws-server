@@ -1,6 +1,6 @@
 {
   "name": "@mikosoft/ws-server",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "title": "Websocket Server",
   "description": "Websocket server library for NodeJS.",
   "author": "Mikosoft",
