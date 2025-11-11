@@ -15,9 +15,12 @@
     "mikosoft"
   ],
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "inst": "rm -rf node_modules && rm package-lock.json && npm install",
+    "inst-win": "rmdir /S /Q node_modules && del package-lock.json && npm install"
+  },
   "dependencies": {
-    "@mikosoft/ws-lib": "^1.0.2"
+    "@mikosoft/ws-lib": "^1.0.3"
   },
   "devDependencies": {},
   "repository": {
