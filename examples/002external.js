@@ -18,9 +18,9 @@ httpServer.on('listening', () => {
 });
 httpServer.on('error', (error) => {
   // handle specific listen errors with friendly messages
-  if (error.code = 'EACCES') {
+  if (error.code === 'EACCES') {
     console.log(this.httpOpts.port + ' permission denied');
-  } else if (error.code = 'EADDRINUSE') {
+  } else if (error.code === 'EADDRINUSE') {
     console.log(this.httpOpts.port + ' already used');
   }
   console.log(error);

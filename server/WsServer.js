@@ -33,8 +33,9 @@ class WsServer {
     } else {
       if (!wsOpts.timeout) { wsOpts.timeout = 5 * 60 * 1000; }
       if (!wsOpts.allowHalfOpen) { wsOpts.allowHalfOpen = false; }
-      if (wsOpts.maxConns < wsOpts.maxIPConns) { throw new Error('Option "maxConns" must be greater then "maxIPConns".'); }
-      if (wsOpts.maxConns <= 0 || wsOpts.maxIPConns <= 0) { throw new Error('Option "maxConns" && "maxIPConns" must be greater then 0.'); }
+      if (wsOpts.maxIPConns === undefined) { wsOpts.maxIPConns = 3; } // default 3, 0 means infinite
+      if (wsOpts.maxIPConns > 0 && wsOpts.maxConns < wsOpts.maxIPConns) { throw new Error('Option "maxConns" must be greater then "maxIPConns".'); }
+      if (wsOpts.maxConns <= 0) { throw new Error('Option "maxConns" must be greater then 0.'); }
       if (!wsOpts.storage) { throw new Error('Option "storage" is not defined. ("storage": "memory")'); }
       if (!wsOpts.subprotocol) { throw new Error('Option "subprotocol" is not defined. ("subprotocol": "jsonRWS")'); }
       if (wsOpts.tightening !== 0 && !wsOpts.tightening) { wsOpts.tightening = 400; }
@@ -180,8 +181,8 @@ class WsServer {
     // limit total number of connections
     if (conns > this.wsOpts.maxConns) { throw new Error(`Total connections: ${conns}  Max allowed: ${this.wsOpts.maxConns}`); }
 
-    // limit number of connection from the same IP
-    if (ip_conns > this.wsOpts.maxIPConns) { throw new Error(`Total connections from IP ${ip} is ${ip_conns}.  Max allowed: ${this.wsOpts.maxIPConns}`); }
+    // limit number of connection from the same IP (if maxIPConns is 0, it means infinite, so skip the check)
+    if (this.wsOpts.maxIPConns > 0 && ip_conns > this.wsOpts.maxIPConns) { throw new Error(`Total connections from IP ${ip} is ${ip_conns}.  Max allowed: ${this.wsOpts.maxIPConns}`); }
   }
 
 
