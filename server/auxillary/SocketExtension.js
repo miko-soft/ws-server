@@ -51,7 +51,7 @@ class SocketExtension {
 
     // properties
     // this.socket.extension.id = helper.generateID(); // 20201129131151783230
-    this.socket.extension.id = this.socket.extension.urlQuery.socketID; // 20201129131151783230
+    this.socket.extension.id = this.socket.extension.urlQuery.socketID; // 20201129131151783230 - the socketID is generated in client library
     this.socket.extension.nick = ''; // custom nick name
     this.socket.extension.ip = this.ip; // client IP
     this.socket.extension.port = +this.socket.remotePort; // client port
@@ -71,7 +71,13 @@ class SocketExtension {
     this.socket.extension.removeSocket = this.socketStorage.remove.bind(this.socketStorage, this.socket);
     this.socket.extension.exitAllRooms = this.socketStorage.roomExitAll.bind(this.socketStorage, this.socket.extension.id);
 
-    this.socket.extension.sendSelf = (msg) => { this.dataTransfer.sendOne(msg, this.socket); };
+    this.socket.extension.sendSelf = (msg) => { this.dataTransfer.sendOne(msg, this.socket); }; // send message to the connected socket
+
+    this.socket.extension.disconnect = () => {
+      this.socketStorage.roomExitAll(this.socket);
+      this.socketStorage.remove(this.socket);
+      this.socket.destroy();
+    };
   }
 
 
